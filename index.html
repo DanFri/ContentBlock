@@ -9,6 +9,18 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         box-sizing: border-box;
+        width: 80%;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      textarea {
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        width: 80%;
+        font-family: Arial, Helvetica, sans-serif;
       }
 
       body {
@@ -52,6 +64,16 @@
               '_checkbox" onclick="cbBlock()"><br />';
           }
 
+          if (res[i].search("---BIGTEXT---") > 0) {
+            edit_html +=
+              '<textarea rows="4" id="textbox' +
+              i +
+              '" onkeyup="cbBlock()">text</textarea>' +
+              ' hide? <input type="checkbox" id="textbox' +
+              i +
+              '_checkbox" onclick="cbBlock()"><br />';
+          }
+
           if (res[i].search("---URL---") > 0) {
             edit_html +=
               "<input type='text' id='textboxURL" +
@@ -89,13 +111,20 @@
 
         for (var i = 0; i < res.length; i++) {
           var tempHTML = res[i];
-          if (tempHTML.search("---TEXT---") > 0) {
+          if (
+            tempHTML.search("---TEXT---") > 0 ||
+            tempHTML.search("---BIGTEXT---") > 0
+          ) {
             var checkBox = document.getElementById("textbox" + i + "_checkbox");
             var fieldvalue = document.getElementById("textbox" + i).value;
             var fieldChecked = document.getElementById(
               "textbox" + i + "_checkbox"
             ).checked;
             var tempHTML_replace = tempHTML.replace("---TEXT---", fieldvalue);
+            tempHTML_replace = tempHTML_replace.replace(
+              "---BIGTEXT---",
+              fieldvalue
+            );
 
             inputKey.push("textbox" + i);
             inputValue.push(fieldvalue);
